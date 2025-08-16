@@ -12,34 +12,29 @@ package com.mycompany.graphs;
 public class Graphs {
 
     public static void main(String[] args) {
-        StaticGraph g1 = new StaticGraph(false);
-        g1.agregarVertice("V1");
-        g1.agregarVertice("V2");
-        g1.agregarVertice("V3");
-        g1.conectar("V1", "V2");
-        g1.imprimirMatriz();
-        
+
+        //Encontrar el camino más corto con Dijkstra:
         DynamicGraph s1 = new DynamicGraph(false);
-        
-        s1.addVertex("Vertex1");
-        s1.addVertex("Vertex2");
-        s1.addVertex("Vertex3");
-        s1.addVertex("Vertex4");
-        s1.addVertex("Vertex5");
+        s1.addVertex("A");
+        s1.addVertex("B");
+        s1.addVertex("C");
+        s1.addVertex("D");
+        s1.addVertex("E");
+        s1.addVertex("Z");
 
-        s1.connect("Vertex1", "Vertex2", 10);
-        s1.connect("Vertex1", "Vertex3", 5);
-        s1.connect("Vertex2", "Vertex3", 2);
-        s1.connect("Vertex2", "Vertex4", 1);
-        s1.connect("Vertex3", "Vertex4", 9);
-        s1.connect("Vertex3", "Vertex5", 2);
-        s1.connect("Vertex4", "Vertex5", 4);
+        s1.connect("A", "B", 4);
+        s1.connect("A", "C", 2);
+        s1.connect("B", "C", 1);
+        s1.connect("B", "D", 5);
+        s1.connect("D", "C", 8);
+        s1.connect("D", "E", 2);
+        s1.connect("D", "Z", 6);
+        s1.connect("C", "E", 10);
+        s1.connect("E", "Z", 3);
 
-        // Ejecutar Dijkstra desde Vertex1
-        s1.dijkstra("Vertex1");
+        s1.dijkstra("A");
 
-        // Mostrar caminos más cortos desde Vertex1
-        s1.printShortestPathsFrom("Vertex1");
+        s1.printShortestPathsFrom("A");
 
     }
 }
