@@ -1,0 +1,5 @@
+com\mycompany\graphs\Graphs.class
+com\mycompany\graphs\DynamicGraph.class
+com\mycompany\graphs\Edge.class
+com\mycompany\graphs\Vertex.class
+com\mycompany\graphs\StaticGraph.class
