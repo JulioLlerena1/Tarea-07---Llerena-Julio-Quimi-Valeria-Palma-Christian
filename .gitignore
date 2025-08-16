@@ -10,7 +10,6 @@
 *.bak
 *~
 
-# IDEs (si algún día usas otro IDE)
 .idea/
 .nbproject/private/
 .vscode/
