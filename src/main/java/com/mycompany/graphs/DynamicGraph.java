@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  *
@@ -138,4 +140,50 @@ public class DynamicGraph<V, E> {
             System.out.println();
         }
     }
+    
+    public int caminoCortoBFS(DynamicGraph grafo,String nodoI,String nodoF){
+    
+        if(grafo == null || grafo.vertices.isEmpty() || grafo.vertices.size() == 1){
+            
+            return 0;
+            
+        }
+        
+        int altura = 0;
+        
+        Deque<Vertex<V,E>> colaVertices = new ArrayDeque<>();
+        
+        colaVertices.push(grafo.findVertex(new Vertex(nodoI)));
+        
+        while(!colaVertices.isEmpty()){
+            
+            for(int i = 0; i < colaVertices.size() ; i++){
+                
+                Vertex<V,E> v = colaVertices.poll();
+                
+                if(!v.isVisited){
+                    
+                    v.isVisited = true;
+                    
+                    for(Edge e: v.edges){
+                        
+                        if(!e.target.isVisited){
+                        
+                            colaVertices.push(e.target);
+                            
+                        }
+                    }
+                    
+                }
+                
+            }
+            
+            altura++;
+            
+        }
+        
+        return altura;
+        
+    }
+    
 }

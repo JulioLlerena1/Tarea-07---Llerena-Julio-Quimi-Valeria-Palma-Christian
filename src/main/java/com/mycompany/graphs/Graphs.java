@@ -35,6 +35,28 @@ public class Graphs {
         s1.dijkstra("A");
 
         s1.printShortestPathsFrom("A");
+        
+        
+        // Camino más corto por número de pasos (BFS)
+        DynamicGraph s2 = new DynamicGraph(false);
+        s2.addVertex("A");
+        s2.addVertex("B");
+        s2.addVertex("C");
+        s2.addVertex("D");
+        s2.addVertex("E");
+        s2.addVertex("Z");
+
+        s2.connect("A", "B", 1);
+        s2.connect("A", "C", 1);
+        s2.connect("B", "C", 1);
+        s2.connect("B", "D", 1);
+        s2.connect("D", "C", 1);
+        s2.connect("D", "E", 1);
+        s2.connect("D", "Z", 1);
+        s2.connect("C", "E", 1);
+        s2.connect("E", "Z", 1);
+        
+        s2.caminoCortoBFS(s2, "D", "E");
 
     }
 }
