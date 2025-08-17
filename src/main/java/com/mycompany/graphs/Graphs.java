@@ -13,6 +13,26 @@ public class Graphs {
 
     public static void main(String[] args) {
 
+        // Camino más corto por número de pasos (BFS)
+        DynamicGraph s2 = new DynamicGraph(false);
+        s2.addVertex("Mercado");
+        s2.addVertex("Escuela");
+        s2.addVertex("Hospital");
+        s2.addVertex("Parque");
+        s2.addVertex("Biblioteca");
+        s2.addVertex("Estación");
+        s2.addVertex("Universidad");
+
+        s2.connect("Mercado", "Escuela", 1);
+        s2.connect("Escuela", "Hospital", 1);
+        s2.connect("Hospital", "Parque", 1);
+        s2.connect("Parque", "Biblioteca", 1);
+        s2.connect("Biblioteca", "Estación", 1);
+        s2.connect("Estación", "Universidad", 1);
+        s2.connect("Universidad", "Parque", 1);
+        System.out.println(s2.caminoCortoBFS(s2, "Mercado", "Estación"));
+
+
         //Encontrar el camino más corto con Dijkstra:
         DynamicGraph s1 = new DynamicGraph(false);
         s1.addVertex("A");
@@ -35,28 +55,7 @@ public class Graphs {
         s1.dijkstra("A");
 
         s1.printShortestPathsFrom("A");
-        
-        
-        // Camino más corto por número de pasos (BFS)
-        DynamicGraph s2 = new DynamicGraph(false);
-        s2.addVertex("A");
-        s2.addVertex("B");
-        s2.addVertex("C");
-        s2.addVertex("D");
-        s2.addVertex("E");
-        s2.addVertex("Z");
 
-        s2.connect("A", "B", 1);
-        s2.connect("A", "C", 1);
-        s2.connect("B", "C", 1);
-        s2.connect("B", "D", 1);
-        s2.connect("D", "C", 1);
-        s2.connect("D", "E", 1);
-        s2.connect("D", "Z", 1);
-        s2.connect("C", "E", 1);
-        s2.connect("E", "Z", 1);
-        
-        s2.caminoCortoBFS(s2, "D", "E");
 
     }
 }
