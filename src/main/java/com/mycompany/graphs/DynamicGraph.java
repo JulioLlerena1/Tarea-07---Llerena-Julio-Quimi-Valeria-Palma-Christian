@@ -19,7 +19,6 @@ public class DynamicGraph<V, E> {
         this.directed = directed;
     }
 
-    // 1. Find vertex by content
     private Vertex<V, E> findVertex(V content) {
         if (content == null) return null;
         for (Vertex<V, E> v : vertices) {
@@ -30,7 +29,6 @@ public class DynamicGraph<V, E> {
         return null;
     }
 
-    // 2. Add vertex
     public boolean addVertex(V content) {
         if (content == null || findVertex(content) != null) {
             return false;
@@ -40,7 +38,6 @@ public class DynamicGraph<V, E> {
         return true;
     }
 
-    // 3. Connect two vertices (add edge)
     public boolean connect(V from, V to, double weight) {
         if (from == null || to == null) return false;
 
@@ -49,11 +46,9 @@ public class DynamicGraph<V, E> {
 
         if (v1 == null || v2 == null) return false;
 
-        // Add edge v1 -> v2
         Edge<V, E> edge = new Edge<>(v1, v2, weight);
         v1.getEdges().add(edge);
 
-        // If not directed, also add v2 -> v1
         if (!directed) {
             Edge<V, E> reverseEdge = new Edge<>(v2, v1, weight);
             v2.getEdges().add(reverseEdge);
@@ -67,7 +62,6 @@ public class DynamicGraph<V, E> {
         Vertex<V, E> start = findVertex(startContent);
         if (start == null) return;
         start.setDistance(0);
-        // PriorityQueue by distance
         PriorityQueue<Vertex<V, E>> queue = new PriorityQueue<>(
                 (a,b) -> { return  Double.compare(a.getDistance(), b.getDistance());  }
         );
@@ -125,7 +119,6 @@ public class DynamicGraph<V, E> {
     }
 
 
-    // 4. Print graph
     public void printGraph() {
         for (Vertex<V, E> v : vertices) {
             System.out.print(v.getValue() + " -> ");
