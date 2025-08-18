@@ -20,7 +20,8 @@ public class DynamicGraph<V, E> {
     }
 
     private Vertex<V, E> findVertex(V content) {
-        if (content == null) return null;
+        if (content == null)
+            return null;
         for (Vertex<V, E> v : vertices) {
             if (v.getValue().equals(content)) {
                 return v;
@@ -39,12 +40,14 @@ public class DynamicGraph<V, E> {
     }
 
     public boolean connect(V from, V to, double weight) {
-        if (from == null || to == null) return false;
+        if (from == null || to == null)
+            return false;
 
         Vertex<V, E> v1 = findVertex(from);
         Vertex<V, E> v2 = findVertex(to);
 
-        if (v1 == null || v2 == null) return false;
+        if (v1 == null || v2 == null)
+            return false;
 
         Edge<V, E> edge = new Edge<>(v1, v2, weight);
         v1.getEdges().add(edge);
@@ -55,21 +58,21 @@ public class DynamicGraph<V, E> {
         }
         return true;
     }
-    
-    
-    
+
     public void dijkstra(V startContent) {
         Vertex<V, E> start = findVertex(startContent);
-        if (start == null) return;
+        if (start == null)
+            return;
         start.setDistance(0);
         PriorityQueue<Vertex<V, E>> queue = new PriorityQueue<>(
-                (a,b) -> { return  Double.compare(a.getDistance(), b.getDistance());  }
-        );
+                (a, b) -> {
+                    return Double.compare(a.getDistance(), b.getDistance());
+                });
         queue.add(start);
 
         while (!queue.isEmpty()) {
             Vertex<V, E> u = queue.poll();
-            if(!u.isVisited){
+            if (!u.isVisited) {
                 for (Edge<V, E> edge : u.getEdges()) {
                     Vertex<V, E> v = edge.target;
                     double newDist = u.getDistance() + edge.weight;
@@ -83,7 +86,7 @@ public class DynamicGraph<V, E> {
             }
         }
     }
-    
+
     public void printShortestPathsFrom(V startContent) {
         Vertex<V, E> start = findVertex(startContent);
         if (start == null) {
@@ -93,7 +96,7 @@ public class DynamicGraph<V, E> {
 
         System.out.println("Shortest paths from vertex: " + startContent);
         for (Vertex<V, E> v : vertices) {
-            
+
             if (v != start) { // solo procesar si no es el vértice inicial
                 System.out.print("To " + v.getValue() + ": ");
 
@@ -110,14 +113,14 @@ public class DynamicGraph<V, E> {
                     System.out.print("Path: ");
                     for (int i = 0; i < path.size(); i++) {
                         System.out.print(path.get(i));
-                        if (i < path.size() - 1) System.out.print(" -> ");
+                        if (i < path.size() - 1)
+                            System.out.print(" -> ");
                     }
                     System.out.println(" | Distance: " + v.getDistance());
                 }
             }
         }
     }
-
 
     public void printGraph() {
         for (Vertex<V, E> v : vertices) {
@@ -128,10 +131,10 @@ public class DynamicGraph<V, E> {
             System.out.println();
         }
     }
-    
-    public int caminoCortoBFS(DynamicGraph grafo,String nodoI,String nodoF){
-    
-        if(grafo == null || grafo.vertices.isEmpty() || grafo.vertices.size() == 1){
+
+    public int caminoCortoBFS(DynamicGraph grafo, String nodoI, String nodoF) {
+
+        if (grafo == null || grafo.vertices.isEmpty() || grafo.vertices.size() == 1) {
             return 0;
         }
         int altura = 0;
@@ -140,13 +143,13 @@ public class DynamicGraph<V, E> {
             v.isVisited = false;
         }
 
-        Deque<Vertex<V,E>> colaVertices = new ArrayDeque<>();
-        Vertex<V,E> nodo = grafo.findVertex(nodoI);
+        Deque<Vertex<V, E>> colaVertices = new ArrayDeque<>();
+        Vertex<V, E> nodo = grafo.findVertex(nodoI);
         colaVertices.offer(nodo);
 
-        while(!colaVertices.isEmpty()){
+        while (!colaVertices.isEmpty()) {
             int size = colaVertices.size();
-            for(int i = 0; i < size ; i++) {
+            for (int i = 0; i < size; i++) {
                 Vertex<V, E> v = colaVertices.poll();
                 if (v.getValue().equals(nodoF))
                     return altura;
@@ -163,5 +166,90 @@ public class DynamicGraph<V, E> {
             altura++;
         }
         return -1;
+    }
+
+    public boolean hayRuta(V content1, V content2) {
+
+        if (content1 == null || content2 == null)
+            return false;
+
+        Vertex<V, E> inicio = findVertex(content1);
+        Vertex<V, E> fin = findVertex(content2);
+
+        if (inicio == null || fin == null)
+            return false;
+
+        for (Vertex<V, E> v : vertices) {
+            v.isVisited = false;
+        }
+
+        Stack<Vertex<V, E>> pila = new Stack<>();
+        pila.push(inicio);
+
+        while (!pila.isEmpty()) {
+            Vertex<V, E> actual = pila.pop();
+
+            if (actual == fin)
+                return true;
+
+            if (!actual.isVisited) {
+                actual.isVisited = true;
+
+                for (Edge<V, E> e : actual.getEdges()) {
+
+                    if (!e.target.isVisited) {
+                        pila.push(e.target);
+                    }
+                }
+            }
+
+        }
+
+        return false;
+    }
+
+
+    public boolean tieneCiclo(){
+
+        for(Vertex<V, E> v: vertices){
+            v.isVisited= false;
+        }
+
+        Set<Vertex<V,E>> recursion= new HashSet<>();
+
+        for(Vertex<V, E> v: vertices){
+            if(!v.isVisited){
+                if(dfsCiclo(v, recursion)){
+                    return true;
+                }
+            }
+        }
+
+        return false; 
+    }
+
+    //metodo auxiliar
+    private boolean dfsCiclo(Vertex<V, E> vActual, Set<Vertex<V, E>> recursion) {
+      vActual.isVisited= true;
+
+      recursion.add(vActual);
+
+      for(Edge<V, E> e: vActual.getEdges()){
+        Vertex<V, E> destino= e.target; 
+
+        if(!destino.isVisited){
+            if(dfsCiclo(destino, recursion)){
+                return true;
+            }
+        }
+
+        else if(recursion.contains(destino)){
+            return true;
+        }
+      } 
+
+      recursion.remove(vActual);
+      return false; 
+
     }
 }
